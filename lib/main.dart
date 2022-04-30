@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interview/screens/book_list_screen.dart';
+import 'package:interview/services/sql_service.dart';
+
+import 'repositories/book_repository.dart';
 
 void main() {
   runApp(MyApp());
@@ -8,12 +12,22 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Book demo',
-      theme: ThemeData(
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+    // services
+    final _sqlService = SQLService();
+
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider<BookRepository>(
+          create: (context) => BookRepository(sqlService: _sqlService),
+        ),
+      ],
+      child: MaterialApp(
+        title: 'Book demo',
+        theme: ThemeData(
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        home: BookListScreen(),
       ),
-      home: BookListScreen(),
     );
   }
 }
