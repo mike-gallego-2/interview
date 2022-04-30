@@ -7,18 +7,19 @@ class BookTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      padding: const EdgeInsets.all(16),
       height: 250,
       child: Column(
         children: [
           Expanded(
             child: book.coverImage != null
-                ? Container(
-                    color: Colors.grey,
-                  )
-                : Image.network(
+                ? Image.network(
                     book.coverImage!,
                     fit: BoxFit.cover,
+                  )
+                : Container(
+                    color: Colors.grey,
                   ),
           ),
           Text(book.title),

@@ -12,14 +12,8 @@ import 'package:sqflite/sqflite.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   var databasesPath = await getDatabasesPath();
-  var path = join(databasesPath, 'book.db');
+  var path = join(databasesPath, 'book_database.db');
   var exists = await databaseExists(path);
-
-  if (!exists) {
-    debugPrint('does not exist');
-  } else {
-    debugPrint('exists');
-  }
 
   if (!exists) {
     try {
@@ -27,7 +21,7 @@ void main() async {
     } catch (_) {}
 
     // Copy from asset
-    ByteData data = await rootBundle.load(join("assets", "book.db"));
+    ByteData data = await rootBundle.load(join("assets", "book_database.db"));
     List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
 
     // Write and flush the bytes written
@@ -35,7 +29,7 @@ void main() async {
   } else {
     print("Opening existing database");
   }
-// open the database
+
   Database db = await openDatabase(path);
 
   runApp(MyApp(

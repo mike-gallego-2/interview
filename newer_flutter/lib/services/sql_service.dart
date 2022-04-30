@@ -12,7 +12,7 @@ class SQLService {
   Future<Stream<List<Book>>> getBooks() async {
     debugPrint(db.path);
     StreamController<List<Book>> controller = StreamController<List<Book>>();
-    await db.rawQuery("SELECT * FROM book WHERE title IS NOT NULL").then((value) {
+    await db.rawQuery("SELECT * FROM book").then((value) {
       controller.add(value.map((e) => Book.fromMap(e)).toList());
     });
 
