@@ -11,30 +11,31 @@ class BookListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _bookRepository = context.read<BookRepository>();
-    return BlocProvider(
-      create: (context) => BookListBloc(bookRepository: _bookRepository)..add(BookListLoadEvent()),
-      child: Scaffold(
-        appBar: AppBar(title: Text('Books')),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => AddBookScreen()));
-          },
-          child: Icon(Icons.add),
-        ),
-        body: BlocConsumer<BookListBloc, BookListState>(
-          listener: (context, state) => print('BookListScreen: $state'),
-          builder: (context, state) {
-            final bookListBloc = context.read<BookListBloc>();
-            if (state.status == BookStatus.loaded) {
-              debugPrint(state.books.toString());
-              return ListView(
-                children: state.books.map((book) => BookTile(book: book)).toList(),
-              );
-            } else {
-              return Center(child: CircularProgressIndicator());
-            }
-          },
-        ),
+    return Scaffold(
+      appBar: AppBar(title: Text('Books')),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AddBookScreen(
+                canDelete: false,
+              ),
+            ),
+          );
+        },
+        child: Icon(Icons.add),
+      ),
+      body: BlocBuilder<BookListBloc, BookListState>(
+        builder: (context, state) {
+          if (state.status == BookStatus.loaded) {
+            return ListView(
+              children: state.books.map((book) => BookTile(book: book)).toList(),
+            );
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
+        },
       ),
     );
   }
