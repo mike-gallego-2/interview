@@ -11,8 +11,19 @@ class BookListAddEvent extends BookListEvent {
   BookListAddEvent({required this.book});
 }
 
-class BookListDeleteEvent extends BookListEvent {}
+class BookListDeleteEvent extends BookListEvent {
+  final Book book;
+  BookListDeleteEvent({required this.book});
+}
 
 class BookListSaveEvent extends BookListEvent {}
 
-class BookListUpdateEvent extends BookListEvent {}
+class BookListUpdateTitleEvent extends BookListEvent {
+  final String title;
+  BookListUpdateTitleEvent({required this.title});
+}
+
+class BookListUpdateAuthorEvent extends BookListEvent {
+  final String author;
+  BookListUpdateAuthorEvent({required this.author});
+}

@@ -8,7 +8,8 @@ part 'book_list_state.dart';
 
 class BookListBloc extends Bloc<BookListEvent, BookListState> {
   BookRepository bookRepository;
-  BookListBloc({required this.bookRepository}) : super(BookListState(books: [], status: BookStatus.initial)) {
+  BookListBloc({required this.bookRepository})
+      : super(BookListState(books: [], status: BookStatus.initial, titleText: '', authorText: '')) {
     on<BookListLoadEvent>((event, emit) async {
       emit(state.copyWith(status: BookStatus.loading));
       final bookStream = await bookRepository.getBooks();
@@ -18,9 +19,20 @@ class BookListBloc extends Bloc<BookListEvent, BookListState> {
         return state.copyWith(status: BookStatus.error);
       });
     });
-    on<BookListAddEvent>((event, emit) {});
-    on<BookListDeleteEvent>((event, emit) {});
-    on<BookListUpdateEvent>((event, emit) {});
-    on<BookListSaveEvent>((event, emit) {});
+
+    on<BookListAddEvent>((event, emit) {
+      bookRepository.addBook(book: event.book);
+    });
+
+    on<BookListDeleteEvent>((event, emit) {
+      bookRepository.deleteBook(book: event.book);
+    });
+
+    on<BookListUpdateTitleEvent>((event, emit) {
+      emit(state.copyWith(titleText: event.title));
+    });
+    on<BookListUpdateAuthorEvent>((event, emit) {
+      emit(state.copyWith(authorText: event.author));
+    });
   }
 }
