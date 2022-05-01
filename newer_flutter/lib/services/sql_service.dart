@@ -26,7 +26,13 @@ class SQLService {
 
   Future<void> addBook({required Book book}) async {
     db.transaction((txn) async {
-      txn.rawInsert('INSERT INTO book VALUES (${book.title}, ${book.author}, ${book.coverImage};)');
+      txn.rawInsert("INSERT INTO book VALUES ('${book.coverImage ?? ''}', '${book.title}', '${book.author}')");
+    });
+  }
+
+  Future<void> deleteBook({required Book book}) async {
+    db.transaction((txn) async {
+      txn.rawDelete("DELETE FROM book WHERE title = '${book.title}' AND author = '${book.author}'");
     });
   }
 }
