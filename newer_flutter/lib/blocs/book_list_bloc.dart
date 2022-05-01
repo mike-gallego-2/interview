@@ -25,7 +25,7 @@ class BookListBloc extends Bloc<BookListEvent, BookListState> {
     });
 
     on<BookListDeleteEvent>((event, emit) {
-      bookRepository.deleteBook(book: event.book);
+      bookRepository.deleteBook(id: event.id);
     });
 
     on<BookListUpdateTitleEvent>((event, emit) {

@@ -43,7 +43,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                 widget.canDelete
                     ? IconButton(
                         onPressed: () {
-                          _bookListBloc.add(BookListDeleteEvent(book: widget.book!));
+                          _bookListBloc.add(BookListDeleteEvent(id: widget.book!.id));
                         },
                         icon: Icon(Icons.delete_outline))
                     : SizedBox()
@@ -87,7 +87,8 @@ class _AddBookScreenState extends State<AddBookScreen> {
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
                     onTap: () {
-                      _bookListBloc.add(BookListAddEvent(book: Book(title: state.titleText, author: state.authorText)));
+                      _bookListBloc.add(BookListAddEvent(
+                          book: Book(id: (state.books.length + 1), title: state.titleText, author: state.authorText)));
                       Navigator.pop(context);
                     },
                     child: Container(

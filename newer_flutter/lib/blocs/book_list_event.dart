@@ -12,8 +12,8 @@ class BookListAddEvent extends BookListEvent {
 }
 
 class BookListDeleteEvent extends BookListEvent {
-  final Book book;
-  BookListDeleteEvent({required this.book});
+  final int id;
+  BookListDeleteEvent({required this.id});
 }
 
 class BookListSaveEvent extends BookListEvent {}
