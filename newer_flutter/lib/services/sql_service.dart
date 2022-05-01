@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:interview/models/book.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -10,7 +9,6 @@ class SQLService {
   SQLService({required this.db});
 
   Future<Stream<List<Book>>> getBooks() async {
-    debugPrint(db.path);
     StreamController<List<Book>> controller = StreamController<List<Book>>();
     await db.rawQuery("SELECT * FROM book").then((value) {
       controller.add(value.map((e) => Book.fromMap(e)).toList());

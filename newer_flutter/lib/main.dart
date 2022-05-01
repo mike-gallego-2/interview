@@ -13,7 +13,7 @@ import 'package:sqflite/sqflite.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   var databasesPath = await getDatabasesPath();
-  var path = join(databasesPath, 'book_database.db');
+  var path = join(databasesPath, 'book.db');
   var exists = await databaseExists(path);
 
   if (!exists) {
@@ -22,7 +22,7 @@ void main() async {
     } catch (_) {}
 
     // Copy from asset
-    ByteData data = await rootBundle.load(join("assets", "book_database.db"));
+    ByteData data = await rootBundle.load(join("assets", "book.db"));
     List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
 
     // Write and flush the bytes written
