@@ -35,6 +35,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
     return SafeArea(
       child: BlocBuilder<BookListBloc, BookListState>(
         builder: (context, state) {
+          debugPrint(state.titleText);
           final _bookListBloc = context.read<BookListBloc>();
           return Scaffold(
             appBar: AppBar(
@@ -56,7 +57,13 @@ class _AddBookScreenState extends State<AddBookScreen> {
                   padding: const EdgeInsets.all(8.0),
                   child: TextField(
                     controller: _titleController,
-                    decoration: InputDecoration(hintText: 'Enter the title of the book'),
+                    decoration: InputDecoration(
+                      hintText: 'Enter the title of the book',
+                      focusColor: Colors.blue,
+                      labelText: 'Title',
+                      labelStyle: TextStyle(fontSize: 12),
+                      floatingLabelBehavior: FloatingLabelBehavior.auto,
+                    ),
                     onChanged: (value) {
                       _bookListBloc.add(BookListUpdateTitleEvent(title: value));
                     },
@@ -66,29 +73,48 @@ class _AddBookScreenState extends State<AddBookScreen> {
                   padding: const EdgeInsets.all(8.0),
                   child: TextField(
                     controller: _authorController,
-                    decoration: InputDecoration(hintText: 'Enter author name'),
+                    decoration: InputDecoration(
+                      hintText: 'Enter author name',
+                      labelText: 'Author',
+                      focusColor: Colors.blue,
+                      labelStyle: TextStyle(fontSize: 12),
+                      floatingLabelBehavior: FloatingLabelBehavior.auto,
+                    ),
                     onChanged: (value) {
                       _bookListBloc.add(BookListUpdateAuthorEvent(author: value));
                     },
                   ),
                 ),
                 if (widget.book != null) ...[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Image.network(widget.book!.coverImage ?? '', height: 100, width: 100, fit: BoxFit.cover,
-                        errorBuilder: (context, _, __) {
-                      return Icon(Icons.error);
-                    }),
-                  ),
-                ] else ...[
-                  SizedBox()
+                  if (widget.book!.coverImage == 'null' || widget.book!.coverImage.isEmpty) ...[
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('No cover image'),
+                    ),
+                  ] else ...[
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Image.network(widget.book!.coverImage, height: 100, width: 100, fit: BoxFit.cover,
+                          errorBuilder: (context, _, __) {
+                        return Icon(Icons.error);
+                      }),
+                    ),
+                  ]
                 ],
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
                     onTap: () {
                       _bookListBloc.add(BookListAddEvent(
-                          book: Book(id: (state.books.length + 1), title: state.titleText, author: state.authorText)));
+                          book: Book(
+                              id: (state.books.length + 1),
+                              title: state.titleText,
+                              author: state.authorText,
+                              coverImage: 'null')));
+                      // reload
+                      _bookListBloc.add(BookListLoadEvent());
+                      _titleController.clear();
+                      _authorController.clear();
                       Navigator.pop(context);
                     },
                     child: Container(

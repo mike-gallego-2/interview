@@ -22,6 +22,7 @@ class BookListBloc extends Bloc<BookListEvent, BookListState> {
 
     on<BookListAddEvent>((event, emit) {
       bookRepository.addBook(book: event.book);
+      emit(state.copyWith(titleText: '', authorText: ''));
     });
 
     on<BookListDeleteEvent>((event, emit) {
@@ -31,6 +32,7 @@ class BookListBloc extends Bloc<BookListEvent, BookListState> {
     on<BookListUpdateTitleEvent>((event, emit) {
       emit(state.copyWith(titleText: event.title));
     });
+
     on<BookListUpdateAuthorEvent>((event, emit) {
       emit(state.copyWith(authorText: event.author));
     });

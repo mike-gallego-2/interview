@@ -24,8 +24,7 @@ class SQLService {
 
   Future<void> addBook({required Book book}) async {
     db.transaction((txn) async {
-      txn.rawInsert(
-          "INSERT INTO book VALUES ('${book.id}', '${book.coverImage ?? ''}', '${book.title}', '${book.author}')");
+      txn.rawInsert("INSERT INTO book VALUES ('${book.id}', '${book.title}', '${book.author}', '${book.coverImage}')");
     });
   }
 

@@ -25,23 +25,27 @@ class BookTile extends StatelessWidget {
         height: 250,
         child: Column(
           children: [
-            Expanded(
-              child: book.coverImage != null
-                  ? Image.network(
-                      book.coverImage!,
-                      fit: BoxFit.cover,
-                      width: 100,
-                      errorBuilder: (_, __, ___) {
-                        return Container(
-                          color: Colors.grey,
-                          width: 100,
-                        );
-                      },
-                    )
-                  : Container(
+            if (book.coverImage != 'null') ...[
+              Expanded(
+                child: Image.network(
+                  book.coverImage,
+                  fit: BoxFit.cover,
+                  width: 100,
+                  errorBuilder: (_, __, ___) {
+                    return Container(
                       color: Colors.grey,
-                    ),
-            ),
+                      width: 100,
+                    );
+                  },
+                ),
+              ),
+            ] else ...[
+              Container(
+                color: Colors.grey,
+                width: 100,
+                height: 150,
+              ),
+            ],
             Padding(
               padding: const EdgeInsets.all(4.0),
               child: Text(
