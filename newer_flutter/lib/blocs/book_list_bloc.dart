@@ -25,6 +25,11 @@ class BookListBloc extends Bloc<BookListEvent, BookListState> {
       emit(state.copyWith(titleText: '', authorText: ''));
     });
 
+    on<BookListUpdateEvent>((event, emit) {
+      bookRepository.updateBook(book: event.book, title: event.titleText, author: event.authorText);
+      emit(state.copyWith(titleText: '', authorText: ''));
+    });
+
     on<BookListDeleteEvent>((event, emit) {
       bookRepository.deleteBook(id: event.id);
     });

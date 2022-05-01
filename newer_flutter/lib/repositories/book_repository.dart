@@ -14,6 +14,10 @@ class BookRepository {
     await sqlService.addBook(book: book);
   }
 
+  Future<void> updateBook({required Book book, required String title, required String author}) async {
+    await sqlService.updateBook(book: book, title: title, author: author);
+  }
+
   Future<void> deleteBook({required int id}) async {
     await sqlService.deleteBook(id: id);
   }

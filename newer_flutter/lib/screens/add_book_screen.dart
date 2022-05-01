@@ -6,7 +6,8 @@ import 'package:interview/models/book.dart';
 class AddBookScreen extends StatefulWidget {
   final bool canDelete;
   final Book? book;
-  AddBookScreen({Key? key, required this.canDelete, this.book}) : super(key: key);
+  final bool isUpdating;
+  AddBookScreen({Key? key, required this.canDelete, this.book, required this.isUpdating}) : super(key: key);
 
   @override
   State<AddBookScreen> createState() => _AddBookScreenState();
@@ -44,6 +45,8 @@ class _AddBookScreenState extends State<AddBookScreen> {
                     ? IconButton(
                         onPressed: () {
                           _bookListBloc.add(BookListDeleteEvent(id: widget.book!.id));
+                          _bookListBloc.add(BookListLoadEvent());
+                          Navigator.pop(context);
                         },
                         icon: Icon(Icons.delete_outline))
                     : SizedBox()
@@ -109,12 +112,17 @@ class _AddBookScreenState extends State<AddBookScreen> {
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
                     onTap: () {
-                      _bookListBloc.add(BookListAddEvent(
-                          book: Book(
-                              id: (state.books.length + 1),
-                              title: state.titleText,
-                              author: state.authorText,
-                              coverImage: 'null')));
+                      if (widget.isUpdating) {
+                        _bookListBloc.add(BookListUpdateEvent(
+                            book: widget.book!, titleText: _titleController.text, authorText: _authorController.text));
+                      } else {
+                        _bookListBloc.add(BookListAddEvent(
+                            book: Book(
+                                id: (state.books.length + 1),
+                                title: state.titleText,
+                                author: state.authorText,
+                                coverImage: 'null')));
+                      }
                       // reload
                       _bookListBloc.add(BookListLoadEvent());
                       _titleController.clear();
@@ -126,7 +134,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: Center(
                         child: Text(
-                          'Save',
+                          widget.isUpdating ? 'Update' : 'Save',
                           style: TextStyle(color: Colors.white),
                         ),
                       ),

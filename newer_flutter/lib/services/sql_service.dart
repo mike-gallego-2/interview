@@ -10,7 +10,7 @@ class SQLService {
 
   Future<Stream<List<Book>>> getBooks() async {
     StreamController<List<Book>> controller = StreamController<List<Book>>();
-    await db.rawQuery("SELECT * FROM book").then((value) {
+    db.rawQuery("SELECT * FROM book").then((value) {
       controller.add(value.map((e) => Book.fromMap(e)).toList());
     });
 
@@ -34,5 +34,9 @@ class SQLService {
     });
   }
 
-  Future<void> updateBook({required Book book}) async {}
+  Future<void> updateBook({required Book book, required String title, required String author}) async {
+    db.transaction((txn) async {
+      await txn.rawUpdate("UPDATE book SET title = '$title', author = '$author' WHERE ID = ${book.id}");
+    });
+  }
 }

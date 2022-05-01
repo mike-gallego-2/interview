@@ -20,6 +20,7 @@ class BookListScreen extends StatelessWidget {
             MaterialPageRoute(
               builder: (context) => AddBookScreen(
                 canDelete: false,
+                isUpdating: false,
               ),
             ),
           );
