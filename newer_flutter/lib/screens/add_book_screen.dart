@@ -35,7 +35,6 @@ class _AddBookScreenState extends State<AddBookScreen> {
     return SafeArea(
       child: BlocBuilder<BookListBloc, BookListState>(
         builder: (context, state) {
-          debugPrint(state.titleText);
           final _bookListBloc = context.read<BookListBloc>();
           return Scaffold(
             appBar: AppBar(
@@ -86,12 +85,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                   ),
                 ),
                 if (widget.book != null) ...[
-                  if (widget.book!.coverImage == 'null' || widget.book!.coverImage.isEmpty) ...[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text('No cover image'),
-                    ),
-                  ] else ...[
+                  if (widget.book!.coverImage != 'null') ...[
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Image.network(widget.book!.coverImage, height: 100, width: 100, fit: BoxFit.cover,
@@ -99,7 +93,17 @@ class _AddBookScreenState extends State<AddBookScreen> {
                         return Icon(Icons.error);
                       }),
                     ),
-                  ]
+                  ] else ...[
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('No cover image'),
+                    ),
+                  ],
+                ] else ...[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text('No cover image'),
+                  ),
                 ],
                 Padding(
                   padding: const EdgeInsets.all(8.0),
