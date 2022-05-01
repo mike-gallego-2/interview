@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:interview/blocs/book_list_bloc.dart';
 import 'package:interview/repositories/book_repository.dart';
 import 'package:interview/screens/book_list_screen.dart';
 import 'package:interview/services/sql_service.dart';
@@ -45,18 +46,17 @@ class MyApp extends StatelessWidget {
     // services
     final _sqlService = SQLService(db: db);
 
-    return MultiRepositoryProvider(
-      providers: [
-        RepositoryProvider<BookRepository>(
-          create: (context) => BookRepository(sqlService: _sqlService),
+    return RepositoryProvider(
+      create: (context) => BookRepository(sqlService: _sqlService),
+      child: BlocProvider(
+        create: (context) => BookListBloc(bookRepository: context.read<BookRepository>())..add(BookListLoadEvent()),
+        child: MaterialApp(
+          title: 'Book demo',
+          theme: ThemeData(
+            visualDensity: VisualDensity.adaptivePlatformDensity,
+          ),
+          home: BookListScreen(),
         ),
-      ],
-      child: MaterialApp(
-        title: 'Book demo',
-        theme: ThemeData(
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
-        home: BookListScreen(),
       ),
     );
   }
