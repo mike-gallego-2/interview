@@ -8,7 +8,7 @@ import 'package:interview/repositories/book_repository.dart';
 import 'package:interview/screens/book_list_screen.dart';
 import 'package:interview/services/sql_service.dart';
 import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:sqlbrite/sqlbrite.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,14 +32,15 @@ void main() async {
   }
 
   Database db = await openDatabase(path);
+  BriteDatabase briteDb = BriteDatabase(db);
 
   runApp(MyApp(
-    db: db,
+    db: briteDb,
   ));
 }
 
 class MyApp extends StatelessWidget {
-  final Database db;
+  final BriteDatabase db;
   MyApp({required this.db});
   @override
   Widget build(BuildContext context) {

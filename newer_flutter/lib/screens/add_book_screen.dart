@@ -123,8 +123,6 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                 author: state.authorText,
                                 coverImage: 'null')));
                       }
-                      // reload
-                      _bookListBloc.add(BookListLoadEvent());
                       _titleController.clear();
                       _authorController.clear();
                       Navigator.pop(context);

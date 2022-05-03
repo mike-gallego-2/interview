@@ -20,18 +20,19 @@ class BookListBloc extends Bloc<BookListEvent, BookListState> {
       });
     });
 
-    on<BookListAddEvent>((event, emit) {
-      bookRepository.addBook(book: event.book);
+    on<BookListAddEvent>((event, emit) async {
+      await bookRepository.addBook(book: event.book);
       emit(state.copyWith(titleText: '', authorText: ''));
     });
 
-    on<BookListUpdateEvent>((event, emit) {
-      bookRepository.updateBook(book: event.book, title: event.titleText, author: event.authorText);
+    on<BookListUpdateEvent>((event, emit) async {
+      await bookRepository.updateBook(book: event.book, title: event.titleText, author: event.authorText);
       emit(state.copyWith(titleText: '', authorText: ''));
     });
 
-    on<BookListDeleteEvent>((event, emit) {
-      bookRepository.deleteBook(id: event.id);
+    on<BookListDeleteEvent>((event, emit) async {
+      await bookRepository.deleteBook(id: event.id);
+      emit(state.copyWith(titleText: '', authorText: ''));
     });
 
     on<BookListUpdateTitleEvent>((event, emit) {

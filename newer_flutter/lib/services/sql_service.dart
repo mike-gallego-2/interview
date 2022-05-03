@@ -1,17 +1,23 @@
 import 'dart:async';
 
 import 'package:interview/models/book.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:sqlbrite/sqlbrite.dart';
 
 class SQLService {
-  late final Database db;
+  late final BriteDatabase db;
 
   SQLService({required this.db});
 
   Future<Stream<List<Book>>> getBooks() async {
     StreamController<List<Book>> controller = StreamController<List<Book>>();
-    db.rawQuery("SELECT * FROM book").then((value) {
-      controller.add(value.map((e) => Book.fromMap(e)).toList());
+
+    await db
+        .createQuery('book')
+        .mapToList(
+          (row) => Book.fromMap(row),
+        )
+        .listen((event) {
+      controller.add(event);
     });
 
     controller.onCancel = () async {
@@ -23,20 +29,14 @@ class SQLService {
   }
 
   Future<void> addBook({required Book book}) async {
-    db.transaction((txn) async {
-      txn.rawInsert("INSERT INTO book VALUES ('${book.id}', '${book.title}', '${book.author}', '${book.coverImage}')");
-    });
+    db.insert('book', book.toMap());
   }
 
   Future<void> deleteBook({required int id}) async {
-    db.transaction((txn) async {
-      txn.rawDelete("DELETE FROM book WHERE id = $id");
-    });
+    db.delete('book', where: 'id = ?', whereArgs: [id]);
   }
 
   Future<void> updateBook({required Book book, required String title, required String author}) async {
-    db.transaction((txn) async {
-      await txn.rawUpdate("UPDATE book SET title = '$title', author = '$author' WHERE ID = ${book.id}");
-    });
+    db.update('book', {'title': '$title', 'author': '$author'}, where: 'id = ?', whereArgs: [book.id]);
   }
 }
