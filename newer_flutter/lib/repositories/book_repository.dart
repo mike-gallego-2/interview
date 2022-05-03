@@ -7,15 +7,15 @@ class BookRepository {
   BookRepository({required this.sqlService});
 
   Future<Stream<List<Book>>> getBooks() async {
-    return await sqlService.getBooks();
+    return sqlService.getBooks();
   }
 
   Future<void> addBook({required Book book}) async {
-    await sqlService.addBook(book: book);
+    sqlService.addBook(book: book);
   }
 
   Future<void> updateBook({required Book book, required String title, required String author}) async {
-    await sqlService.updateBook(book: book, title: title, author: author);
+    sqlService.updateBook(book: book, title: title, author: author);
   }
 
   Future<void> deleteBook({required int id}) async {
