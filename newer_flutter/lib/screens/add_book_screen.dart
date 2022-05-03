@@ -7,7 +7,7 @@ class AddBookScreen extends StatefulWidget {
   final bool canDelete;
   final Book? book;
   final bool isUpdating;
-  AddBookScreen({Key? key, required this.canDelete, this.book, required this.isUpdating}) : super(key: key);
+  const AddBookScreen({Key? key, required this.canDelete, this.book, required this.isUpdating}) : super(key: key);
 
   @override
   State<AddBookScreen> createState() => _AddBookScreenState();
@@ -39,7 +39,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
           final _bookListBloc = context.read<BookListBloc>();
           return Scaffold(
             appBar: AppBar(
-              title: Text('Books'),
+              title: const Text('Books'),
               actions: [
                 widget.canDelete
                     ? IconButton(
@@ -48,8 +48,8 @@ class _AddBookScreenState extends State<AddBookScreen> {
                           _bookListBloc.add(BookListLoadEvent());
                           Navigator.pop(context);
                         },
-                        icon: Icon(Icons.delete_outline))
-                    : SizedBox()
+                        icon: const Icon(Icons.delete_outline))
+                    : const SizedBox()
               ],
             ),
             body: Column(
@@ -59,7 +59,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                   padding: const EdgeInsets.all(8.0),
                   child: TextField(
                     controller: _titleController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: 'Enter the title of the book',
                       focusColor: Colors.blue,
                       labelText: 'Title',
@@ -75,7 +75,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                   padding: const EdgeInsets.all(8.0),
                   child: TextField(
                     controller: _authorController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: 'Enter author name',
                       labelText: 'Author',
                       focusColor: Colors.blue,
@@ -93,18 +93,18 @@ class _AddBookScreenState extends State<AddBookScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: Image.network(widget.book!.coverImage, height: 100, width: 100, fit: BoxFit.cover,
                           errorBuilder: (context, _, __) {
-                        return Icon(Icons.error);
+                        return const Icon(Icons.error);
                       }),
                     ),
                   ] else ...[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
                       child: Text('No cover image'),
                     ),
                   ],
                 ] else ...[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
                     child: Text('No cover image'),
                   ),
                 ],
@@ -133,7 +133,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                       child: Center(
                         child: Text(
                           widget.isUpdating ? 'Update' : 'Save',
-                          style: TextStyle(color: Colors.white),
+                          style: const TextStyle(color: Colors.white),
                         ),
                       ),
                     ),

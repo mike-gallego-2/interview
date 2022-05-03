@@ -51,7 +51,7 @@ class BookTile extends StatelessWidget {
               padding: const EdgeInsets.all(4.0),
               child: Text(
                 book.title,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w400,
                 ),
@@ -61,7 +61,7 @@ class BookTile extends StatelessWidget {
               padding: const EdgeInsets.all(4.0),
               child: Text(
                 book.author,
-                style: TextStyle(fontSize: 16),
+                style: const TextStyle(fontSize: 16),
               ),
             ),
           ],

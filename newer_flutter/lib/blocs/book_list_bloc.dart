@@ -9,7 +9,7 @@ part 'book_list_state.dart';
 class BookListBloc extends Bloc<BookListEvent, BookListState> {
   BookRepository bookRepository;
   BookListBloc({required this.bookRepository})
-      : super(BookListState(books: [], status: BookStatus.initial, titleText: '', authorText: '')) {
+      : super(const BookListState(books: [], status: BookStatus.initial, titleText: '', authorText: '')) {
     on<BookListLoadEvent>((event, emit) async {
       emit(state.copyWith(status: BookStatus.loading));
       final bookStream = await bookRepository.getBooks();

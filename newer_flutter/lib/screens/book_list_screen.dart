@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interview/blocs/book_list_bloc.dart';
-import 'package:interview/repositories/book_repository.dart';
 import 'package:interview/screens/add_book_screen.dart';
 import 'package:interview/widgets/book_tile.dart';
 
@@ -10,22 +9,21 @@ class BookListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _bookRepository = context.read<BookRepository>();
     return Scaffold(
-      appBar: AppBar(title: Text('Books')),
+      appBar: AppBar(title: const Text('Books')),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => AddBookScreen(
+              builder: (context) => const AddBookScreen(
                 canDelete: false,
                 isUpdating: false,
               ),
             ),
           );
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
       body: BlocBuilder<BookListBloc, BookListState>(
         builder: (context, state) {
@@ -34,7 +32,7 @@ class BookListScreen extends StatelessWidget {
               children: state.books.map((book) => BookTile(book: book)).toList(),
             );
           } else {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
         },
       ),

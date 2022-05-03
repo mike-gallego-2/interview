@@ -28,7 +28,7 @@ void main() async {
     // Write and flush the bytes written
     await File(path).writeAsBytes(bytes, flush: true);
   } else {
-    print("Opening existing database");
+    debugPrint("Opening existing database");
   }
 
   Database db = await openDatabase(path);
@@ -41,7 +41,7 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   final BriteDatabase db;
-  MyApp({required this.db});
+  const MyApp({key = Key, required this.db}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     // services
@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
-          home: BookListScreen(),
+          home: const BookListScreen(),
         ),
       ),
     );

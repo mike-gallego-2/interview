@@ -11,12 +11,7 @@ class SQLService {
   Future<Stream<List<Book>>> getBooks() async {
     StreamController<List<Book>> controller = StreamController<List<Book>>();
 
-    await db
-        .createQuery('book')
-        .mapToList(
-          (row) => Book.fromMap(row),
-        )
-        .listen((event) {
+    db.createQuery('book').mapToList((row) => Book.fromMap(row)).listen((event) {
       controller.add(event);
     });
 
@@ -33,10 +28,10 @@ class SQLService {
   }
 
   Future<void> deleteBook({required int id}) async {
-    db.delete('book', where: 'id = ?', whereArgs: [id]);
+    db.delete('book', where: 'ID = ?', whereArgs: [id]);
   }
 
   Future<void> updateBook({required Book book, required String title, required String author}) async {
-    db.update('book', {'title': '$title', 'author': '$author'}, where: 'id = ?', whereArgs: [book.id]);
+    db.update('book', {'Title': title, 'Author': author}, where: 'ID = ?', whereArgs: [book.id]);
   }
 }
