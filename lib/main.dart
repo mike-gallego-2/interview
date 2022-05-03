@@ -41,7 +41,7 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   final BriteDatabase db;
-  const MyApp({key = Key, required this.db}) : super(key: key);
+  const MyApp({Key? key, required this.db}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     // services
