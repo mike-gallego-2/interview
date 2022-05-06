@@ -6,3 +6,10 @@ This project fetches a local db, and maps the values to output an array of Books
 
 You can run this project on Android or iOS with `flutter run`
 You can run tests for this project using `flutter test`
+
+## Demo (Fetch, Update, Add, and Delete)
+
+
+
+https://user-images.githubusercontent.com/104675233/167151833-c696419b-1fcd-4a54-8316-7e2cb81b7c10.mp4
+
