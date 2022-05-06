@@ -34,25 +34,27 @@ class _AddBookScreenState extends State<AddBookScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: BlocBuilder<BookListBloc, BookListState>(
-        builder: (context, state) {
-          final _bookListBloc = context.read<BookListBloc>();
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text('Books'),
-              actions: [
-                widget.canDelete
-                    ? IconButton(
-                        onPressed: () {
-                          _bookListBloc.add(BookListDeleteEvent(id: widget.book!.id));
-                          _bookListBloc.add(BookListLoadEvent());
-                          Navigator.pop(context);
-                        },
-                        icon: const Icon(Icons.delete_outline))
-                    : const SizedBox()
-              ],
-            ),
-            body: Column(
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Books'),
+          actions: [
+            widget.canDelete
+                ? IconButton(
+                    onPressed: () {
+                      BlocProvider.of<BookListBloc>(context).add(BookListDeleteEvent(id: widget.book!.id));
+                    },
+                    icon: const Icon(Icons.delete_outline))
+                : const SizedBox()
+          ],
+        ),
+        body: BlocConsumer<BookListBloc, BookListState>(
+          listener: (context, state) {
+            if (state.editStatus == EditStatus.added || state.editStatus == EditStatus.updated) {
+              Navigator.maybePop(context);
+            }
+          },
+          builder: (context, state) {
+            return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
@@ -67,7 +69,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                       floatingLabelBehavior: FloatingLabelBehavior.auto,
                     ),
                     onChanged: (value) {
-                      _bookListBloc.add(BookListUpdateTitleEvent(title: value));
+                      BlocProvider.of<BookListBloc>(context).add(BookListUpdateTitleEvent(title: value));
                     },
                   ),
                 ),
@@ -83,7 +85,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                       floatingLabelBehavior: FloatingLabelBehavior.auto,
                     ),
                     onChanged: (value) {
-                      _bookListBloc.add(BookListUpdateAuthorEvent(author: value));
+                      BlocProvider.of<BookListBloc>(context).add(BookListUpdateAuthorEvent(author: value));
                     },
                   ),
                 ),
@@ -113,10 +115,10 @@ class _AddBookScreenState extends State<AddBookScreen> {
                   child: GestureDetector(
                     onTap: () {
                       if (widget.isUpdating) {
-                        _bookListBloc.add(BookListUpdateEvent(
+                        BlocProvider.of<BookListBloc>(context).add(BookListUpdateEvent(
                             book: widget.book!, titleText: _titleController.text, authorText: _authorController.text));
                       } else {
-                        _bookListBloc.add(BookListAddEvent(
+                        BlocProvider.of<BookListBloc>(context).add(BookListAddEvent(
                             book: Book(
                                 id: (state.books.length + 1),
                                 title: state.titleText,
@@ -125,7 +127,6 @@ class _AddBookScreenState extends State<AddBookScreen> {
                       }
                       _titleController.clear();
                       _authorController.clear();
-                      Navigator.pop(context);
                     },
                     child: Container(
                       color: Colors.blue,
@@ -140,9 +141,9 @@ class _AddBookScreenState extends State<AddBookScreen> {
                   ),
                 ),
               ],
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
