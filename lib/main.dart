@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interview/blocs/book_list_bloc.dart';
+import 'package:interview/observer/book_observer.dart';
 import 'package:interview/repositories/book_repository.dart';
 import 'package:interview/screens/book_list_screen.dart';
 import 'package:interview/services/sql_service.dart';
@@ -34,9 +35,12 @@ void main() async {
   Database db = await openDatabase(path);
   BriteDatabase briteDb = BriteDatabase(db);
 
-  runApp(MyApp(
-    db: briteDb,
-  ));
+  BlocOverrides.runZoned(
+    () => runApp(MyApp(
+      db: briteDb,
+    )),
+    blocObserver: BookBlocObserver(),
+  );
 }
 
 class MyApp extends StatelessWidget {

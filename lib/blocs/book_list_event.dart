@@ -4,13 +4,28 @@ abstract class BookListEvent {
   const BookListEvent();
 }
 
-class BookListLoadEvent extends BookListEvent {}
+class BookListLoadEvent extends BookListEvent {
+  @override
+  String toString() {
+    return 'Loaded';
+  }
+}
 
-class BookListResetEvent extends BookListEvent {}
+class BookListResetEvent extends BookListEvent {
+  @override
+  String toString() {
+    return 'Resetted';
+  }
+}
 
 class BookListAddEvent extends BookListEvent {
   final Book book;
   BookListAddEvent({required this.book});
+
+  @override
+  String toString() {
+    return 'Added $book';
+  }
 }
 
 class BookListUpdateEvent extends BookListEvent {
@@ -18,11 +33,21 @@ class BookListUpdateEvent extends BookListEvent {
   final String titleText;
   final String authorText;
   BookListUpdateEvent({required this.book, required this.titleText, required this.authorText});
+
+  @override
+  String toString() {
+    return 'Updated $book with these values: title: $titleText, author: $authorText\nNew book: $book';
+  }
 }
 
 class BookListDeleteEvent extends BookListEvent {
   final int id;
   BookListDeleteEvent({required this.id});
+
+  @override
+  String toString() {
+    return 'Deleted book id: $id';
+  }
 }
 
 class BookListUpdateTitleEvent extends BookListEvent {

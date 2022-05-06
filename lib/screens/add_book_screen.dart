@@ -33,7 +33,6 @@ class _AddBookScreenState extends State<AddBookScreen> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint(_titleController.text);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(

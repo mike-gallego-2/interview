@@ -17,4 +17,9 @@ class Book {
   Map<String, Object?> toMap() {
     return {'ID': id, 'Title': title, 'Author': author, 'CoverImage': coverImage};
   }
+
+  @override
+  String toString() {
+    return 'Book{id: $id, title: $title, author: $author, coverImage: $coverImage}';
+  }
 }
