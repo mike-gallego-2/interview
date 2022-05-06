@@ -15,7 +15,7 @@ class BookListState extends Equatable {
   });
 
   @override
-  List<Object> get props => [books, status, titleText, authorText];
+  List<Object> get props => [books, status, editStatus, titleText, authorText];
 
   BookListState copyWith({
     List<Book>? books,
@@ -43,7 +43,6 @@ enum BookStatus {
 
 enum EditStatus {
   waiting,
-  editing,
   added,
   updated,
 }

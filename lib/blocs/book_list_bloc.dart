@@ -13,12 +13,14 @@ class BookListBloc extends Bloc<BookListEvent, BookListState> {
             books: [], status: BookStatus.initial, editStatus: EditStatus.waiting, titleText: '', authorText: '')) {
     on<BookListLoadEvent>((event, emit) async {
       emit(state.copyWith(status: BookStatus.loading));
-      final bookStream = await bookRepository.getBooks();
-      await emit.forEach<List<Book>>(bookStream, onData: (data) {
-        return state.copyWith(books: data, status: BookStatus.loaded);
-      }, onError: (_, __) {
-        return state.copyWith(status: BookStatus.error);
-      });
+      final bookStream = bookRepository.getBooks();
+      if (bookStream.isLeft) {
+        await emit.forEach<List<Book>>(bookStream.left, onData: (data) {
+          return state.copyWith(books: data, status: BookStatus.loaded);
+        }, onError: (_, __) {
+          return state.copyWith(status: BookStatus.error);
+        });
+      }
     });
 
     on<BookListAddEvent>((event, emit) async {
@@ -37,11 +39,15 @@ class BookListBloc extends Bloc<BookListEvent, BookListState> {
     });
 
     on<BookListUpdateTitleEvent>((event, emit) {
-      emit(state.copyWith(titleText: event.title, editStatus: EditStatus.editing));
+      emit(state.copyWith(titleText: event.title));
     });
 
     on<BookListUpdateAuthorEvent>((event, emit) {
-      emit(state.copyWith(authorText: event.author, editStatus: EditStatus.editing));
+      emit(state.copyWith(authorText: event.author));
+    });
+
+    on<BookListResetEvent>((event, emit) {
+      emit(state.copyWith(editStatus: EditStatus.waiting));
     });
   }
 }

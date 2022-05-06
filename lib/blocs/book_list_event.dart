@@ -6,6 +6,8 @@ abstract class BookListEvent {
 
 class BookListLoadEvent extends BookListEvent {}
 
+class BookListResetEvent extends BookListEvent {}
+
 class BookListAddEvent extends BookListEvent {
   final Book book;
   BookListAddEvent({required this.book});

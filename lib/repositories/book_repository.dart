@@ -1,3 +1,5 @@
+import 'package:either_dart/either.dart';
+import 'package:interview/exceptions/sql_exception.dart';
 import 'package:interview/models/book.dart';
 import 'package:interview/services/sql_service.dart';
 
@@ -6,7 +8,7 @@ class BookRepository {
 
   BookRepository({required this.sqlService});
 
-  Future<Stream<List<Book>>> getBooks() async {
+  Either<Stream<List<Book>>, SQLException> getBooks() {
     return sqlService.getBooks();
   }
 

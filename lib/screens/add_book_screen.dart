@@ -33,6 +33,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint(_titleController.text);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -48,9 +49,10 @@ class _AddBookScreenState extends State<AddBookScreen> {
           ],
         ),
         body: BlocConsumer<BookListBloc, BookListState>(
-          listener: (context, state) {
+          listener: (context, state) async {
             if (state.editStatus == EditStatus.added || state.editStatus == EditStatus.updated) {
-              Navigator.maybePop(context);
+              await Navigator.maybePop(context);
+              BlocProvider.of<BookListBloc>(context).add(BookListResetEvent());
             }
           },
           builder: (context, state) {

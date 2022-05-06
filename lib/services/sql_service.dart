@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:either_dart/either.dart';
+import 'package:interview/exceptions/sql_exception.dart';
 import 'package:interview/models/book.dart';
 import 'package:sqlbrite/sqlbrite.dart';
 
@@ -8,19 +10,21 @@ class SQLService {
 
   SQLService({required this.db});
 
-  Future<Stream<List<Book>>> getBooks() async {
+  Either<Stream<List<Book>>, SQLException> getBooks() {
     StreamController<List<Book>> controller = StreamController<List<Book>>();
 
     db.createQuery('book').mapToList((row) => Book.fromMap(row)).listen((event) {
       controller.add(event);
+    }, onError: (error, stackTrace) {
+      return Right(SQLException(error.toString()));
     });
 
     controller.onCancel = () async {
       await db.close();
-      await controller.close();
+      controller.close();
     };
 
-    return controller.stream;
+    return Left(controller.stream);
   }
 
   Future<void> addBook({required Book book}) async {
