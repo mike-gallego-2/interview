@@ -6,17 +6,17 @@ import 'package:interview/models/book.dart';
 import 'package:sqlbrite/sqlbrite.dart';
 
 class SQLService {
-  late final BriteDatabase db;
+  final BriteDatabase db;
 
   SQLService({required this.db});
 
-  Either<Stream<List<Book>>, SQLException> getBooks() {
+  Either<SQLException, Stream<List<Book>>> getBooks() {
     StreamController<List<Book>> controller = StreamController<List<Book>>();
 
     db.createQuery('book').mapToList((row) => Book.fromMap(row)).listen((event) {
       controller.add(event);
     }, onError: (error, stackTrace) {
-      return Right(SQLException(error.toString()));
+      return Left(SQLException(error.toString()));
     });
 
     controller.onCancel = () async {
@@ -24,7 +24,7 @@ class SQLService {
       controller.close();
     };
 
-    return Left(controller.stream);
+    return Right(controller.stream);
   }
 
   Future<void> addBook({required Book book}) async {

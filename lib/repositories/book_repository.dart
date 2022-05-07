@@ -8,7 +8,7 @@ class BookRepository {
 
   BookRepository({required this.sqlService});
 
-  Either<Stream<List<Book>>, SQLException> getBooks() {
+  Either<SQLException, Stream<List<Book>>> getBooks() {
     return sqlService.getBooks();
   }
 
