@@ -1,7 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:interview/models/book.dart';
 import 'package:interview/screens/add_book_screen.dart';
+import 'package:interview/widgets/book_image.dart';
 
 class BookTile extends StatelessWidget {
   final Book book;
@@ -23,23 +23,10 @@ class BookTile extends StatelessWidget {
       },
       child: Container(
         padding: const EdgeInsets.all(16),
-        height: 250,
         child: Column(
           children: [
             if (book.coverImage != 'null') ...[
-              Expanded(
-                child: CachedNetworkImage(
-                  imageUrl: book.coverImage,
-                  fit: BoxFit.cover,
-                  width: 100,
-                  errorWidget: (_, __, ___) {
-                    return Container(
-                      color: Colors.grey,
-                      width: 100,
-                    );
-                  },
-                ),
-              ),
+              BookImage(imageUrl: book.coverImage),
             ] else ...[
               Container(
                 color: Colors.grey,

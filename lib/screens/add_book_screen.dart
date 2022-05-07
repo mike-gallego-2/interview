@@ -1,8 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interview/blocs/book_list_bloc.dart';
 import 'package:interview/models/book.dart';
+import 'package:interview/widgets/book_image.dart';
 import 'package:interview/widgets/book_textfield.dart';
 
 class AddBookScreen extends StatefulWidget {
@@ -73,17 +73,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                 ),
                 if (widget.book != null) ...[
                   if (widget.book!.coverImage != 'null') ...[
-                    Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: CachedNetworkImage(
-                          imageUrl: widget.book!.coverImage,
-                          height: 100,
-                          width: 100,
-                          fit: BoxFit.cover,
-                          errorWidget: ((_, __, ___) {
-                            return const Icon(Icons.error);
-                          }),
-                        )),
+                    BookImage(imageUrl: widget.book!.coverImage)
                   ] else ...[
                     const Padding(
                       padding: EdgeInsets.all(8.0),
