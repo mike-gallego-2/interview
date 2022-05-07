@@ -42,7 +42,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
             widget.canDelete
                 ? IconButton(
                     onPressed: () {
-                      BlocProvider.of<BookListBloc>(context).add(BookListDeleteEvent(id: widget.book!.id));
+                      context.read<BookListBloc>().add(BookListDeleteEvent(id: widget.book!.id));
                     },
                     icon: const Icon(Icons.delete_outline))
                 : const SizedBox()
@@ -52,7 +52,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
           listener: (context, state) async {
             if (state.editStatus == EditStatus.added || state.editStatus == EditStatus.updated) {
               await Navigator.maybePop(context);
-              BlocProvider.of<BookListBloc>(context).add(BookListResetEvent());
+              context.read<BookListBloc>().add(BookListResetEvent());
             }
           },
           builder: (context, state) {
@@ -63,15 +63,13 @@ class _AddBookScreenState extends State<AddBookScreen> {
                   label: 'Title',
                   hint: 'Enter the title of the book',
                   controller: _titleController,
-                  onChanged: (value) =>
-                      BlocProvider.of<BookListBloc>(context).add(BookListUpdateTitleEvent(title: value)),
+                  onChanged: (value) => context.read<BookListBloc>().add(BookListUpdateTitleEvent(title: value)),
                 ),
                 BookTextField(
                   label: 'Author',
                   hint: 'Enter the author of the book',
                   controller: _authorController,
-                  onChanged: (value) =>
-                      BlocProvider.of<BookListBloc>(context).add(BookListUpdateAuthorEvent(author: value)),
+                  onChanged: (value) => context.read<BookListBloc>().add(BookListUpdateAuthorEvent(author: value)),
                 ),
                 if (widget.book != null) ...[
                   if (widget.book!.coverImage != 'null') ...[
@@ -99,19 +97,19 @@ class _AddBookScreenState extends State<AddBookScreen> {
                   child: GestureDetector(
                     onTap: () {
                       if (widget.isUpdating) {
-                        BlocProvider.of<BookListBloc>(context).add(BookListUpdateEvent(
+                        context.read<BookListBloc>().add(BookListUpdateEvent(
                             book: widget.book!, titleText: _titleController.text, authorText: _authorController.text));
                       } else {
-                        BlocProvider.of<BookListBloc>(context).add(
-                          BookListAddEvent(
-                            book: Book(
-                              id: (state.books.length + 1),
-                              title: state.titleText,
-                              author: state.authorText,
-                              coverImage: 'null',
-                            ),
-                          ),
-                        );
+                        context.read<BookListBloc>().add(
+                              BookListAddEvent(
+                                book: Book(
+                                  id: (state.books.length + 1),
+                                  title: state.titleText,
+                                  author: state.authorText,
+                                  coverImage: 'null',
+                                ),
+                              ),
+                            );
                       }
                       _titleController.clear();
                       _authorController.clear();
