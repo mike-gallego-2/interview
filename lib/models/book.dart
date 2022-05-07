@@ -18,6 +18,20 @@ class Book {
     return {'ID': id, 'Title': title, 'Author': author, 'CoverImage': coverImage};
   }
 
+  Book copyWith({
+    int? id,
+    String? title,
+    String? author,
+    String? coverImage,
+  }) {
+    return Book(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      author: author ?? this.author,
+      coverImage: coverImage ?? this.coverImage,
+    );
+  }
+
   @override
   String toString() {
     return 'Book{id: $id, title: $title, author: $author, coverImage: $coverImage}';

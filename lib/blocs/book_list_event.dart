@@ -36,7 +36,8 @@ class BookListUpdateEvent extends BookListEvent {
 
   @override
   String toString() {
-    return 'Updated $book with these values: title: $titleText, author: $authorText\nNew book: $book';
+    Book newBook = book.copyWith(title: titleText, author: authorText);
+    return 'Updated $book with these values: title: $titleText, author: $authorText\nNew book: $newBook';
   }
 }
 
