@@ -11,20 +11,11 @@ class SQLService {
   SQLService({required this.db});
 
   Either<SQLException, Stream<List<Book>>> getBooks() {
-    StreamController<List<Book>> controller = StreamController<List<Book>>();
-
-    db.createQuery('book').mapToList((row) => Book.fromMap(row)).listen((event) {
-      controller.add(event);
-    }, onError: (error, stackTrace) {
+    var query = db.createQuery('book').mapToList((row) => Book.fromMap(row)).asBroadcastStream().handleError((error) {
       return Left(SQLException(error.toString()));
     });
 
-    controller.onCancel = () async {
-      await db.close();
-      controller.close();
-    };
-
-    return Right(controller.stream);
+    return Right(query);
   }
 
   Future<void> addBook({required Book book}) async {
