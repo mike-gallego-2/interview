@@ -5,10 +5,9 @@ import 'package:interview/models/book.dart';
 import 'package:interview/widgets/book_textfield.dart';
 
 class AddBookScreen extends StatefulWidget {
-  final bool canDelete;
   final Book? book;
   final bool isUpdating;
-  const AddBookScreen({Key? key, required this.canDelete, this.book, required this.isUpdating}) : super(key: key);
+  const AddBookScreen({Key? key, this.book, required this.isUpdating}) : super(key: key);
 
   @override
   State<AddBookScreen> createState() => _AddBookScreenState();
@@ -39,7 +38,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
         appBar: AppBar(
           title: const Text('Books'),
           actions: [
-            widget.canDelete
+            widget.isUpdating
                 ? IconButton(
                     onPressed: () {
                       context.read<BookListBloc>().add(BookListDeleteEvent(id: widget.book!.id));

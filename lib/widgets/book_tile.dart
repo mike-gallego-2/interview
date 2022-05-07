@@ -15,7 +15,6 @@ class BookTile extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) => AddBookScreen(
-              canDelete: true,
               isUpdating: true,
               book: book,
             ),

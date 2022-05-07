@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interview/blocs/book_list_bloc.dart';
 import 'package:interview/screens/add_book_screen.dart';
 import 'package:interview/widgets/book_tile.dart';
+import 'package:lottie/lottie.dart';
 
 class BookListScreen extends StatelessWidget {
   const BookListScreen({Key? key}) : super(key: key);
@@ -17,7 +18,6 @@ class BookListScreen extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) => const AddBookScreen(
-                canDelete: false,
                 isUpdating: false,
               ),
             ),
@@ -32,7 +32,7 @@ class BookListScreen extends StatelessWidget {
               children: state.books.map((book) => BookTile(book: book)).toList(),
             );
           } else {
-            return const Center(child: CircularProgressIndicator());
+            return Center(child: Lottie.asset('assets/book_loading.json'));
           }
         },
       ),
