@@ -27,12 +27,18 @@ class BookListScreen extends StatelessWidget {
       ),
       body: BlocBuilder<BookListBloc, BookListState>(
         builder: (context, state) {
-          if (state.status == BookStatus.loaded) {
-            return ListView(
-              children: state.books.map((book) => BookTile(book: book)).toList(),
-            );
-          } else {
-            return Center(child: Lottie.asset('assets/book_loading.json'));
+          switch (state.status) {
+            case BookStatus.loaded:
+              return ListView(
+                children: state.books.map((book) => BookTile(book: book)).toList(),
+              );
+            case BookStatus.initial:
+            case BookStatus.loading:
+              return Center(child: Lottie.asset('assets/book_loading.json'));
+            case BookStatus.error:
+              return const Center(
+                child: Icon(Icons.error),
+              );
           }
         },
       ),
