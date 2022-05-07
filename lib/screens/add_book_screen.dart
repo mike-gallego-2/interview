@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interview/blocs/book_list_bloc.dart';
 import 'package:interview/models/book.dart';
+import 'package:interview/widgets/book_textfield.dart';
 
 class AddBookScreen extends StatefulWidget {
   final bool canDelete;
@@ -58,37 +59,19 @@ class _AddBookScreenState extends State<AddBookScreen> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: _titleController,
-                    decoration: const InputDecoration(
-                      hintText: 'Enter the title of the book',
-                      focusColor: Colors.blue,
-                      labelText: 'Title',
-                      labelStyle: TextStyle(fontSize: 12),
-                      floatingLabelBehavior: FloatingLabelBehavior.auto,
-                    ),
-                    onChanged: (value) {
-                      BlocProvider.of<BookListBloc>(context).add(BookListUpdateTitleEvent(title: value));
-                    },
-                  ),
+                BookTextField(
+                  label: 'Title',
+                  hint: 'Enter the title of the book',
+                  controller: _titleController,
+                  onChanged: (value) =>
+                      BlocProvider.of<BookListBloc>(context).add(BookListUpdateTitleEvent(title: value)),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: _authorController,
-                    decoration: const InputDecoration(
-                      hintText: 'Enter author name',
-                      labelText: 'Author',
-                      focusColor: Colors.blue,
-                      labelStyle: TextStyle(fontSize: 12),
-                      floatingLabelBehavior: FloatingLabelBehavior.auto,
-                    ),
-                    onChanged: (value) {
-                      BlocProvider.of<BookListBloc>(context).add(BookListUpdateAuthorEvent(author: value));
-                    },
-                  ),
+                BookTextField(
+                  label: 'Author',
+                  hint: 'Enter the author of the book',
+                  controller: _authorController,
+                  onChanged: (value) =>
+                      BlocProvider.of<BookListBloc>(context).add(BookListUpdateAuthorEvent(author: value)),
                 ),
                 if (widget.book != null) ...[
                   if (widget.book!.coverImage != 'null') ...[
@@ -119,12 +102,16 @@ class _AddBookScreenState extends State<AddBookScreen> {
                         BlocProvider.of<BookListBloc>(context).add(BookListUpdateEvent(
                             book: widget.book!, titleText: _titleController.text, authorText: _authorController.text));
                       } else {
-                        BlocProvider.of<BookListBloc>(context).add(BookListAddEvent(
+                        BlocProvider.of<BookListBloc>(context).add(
+                          BookListAddEvent(
                             book: Book(
-                                id: (state.books.length + 1),
-                                title: state.titleText,
-                                author: state.authorText,
-                                coverImage: 'null')));
+                              id: (state.books.length + 1),
+                              title: state.titleText,
+                              author: state.authorText,
+                              coverImage: 'null',
+                            ),
+                          ),
+                        );
                       }
                       _titleController.clear();
                       _authorController.clear();

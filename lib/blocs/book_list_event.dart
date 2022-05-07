@@ -53,9 +53,17 @@ class BookListDeleteEvent extends BookListEvent {
 class BookListUpdateTitleEvent extends BookListEvent {
   final String title;
   BookListUpdateTitleEvent({required this.title});
+  @override
+  String toString() {
+    return 'The current title text is $title';
+  }
 }
 
 class BookListUpdateAuthorEvent extends BookListEvent {
   final String author;
   BookListUpdateAuthorEvent({required this.author});
+  @override
+  String toString() {
+    return 'The current author text is $author';
+  }
 }
