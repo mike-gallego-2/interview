@@ -10,12 +10,18 @@ class BookListBloc extends Bloc<BookListEvent, BookListState> {
   BookRepository bookRepository;
   BookListBloc({required this.bookRepository})
       : super(const BookListState(
-            books: [], status: BookStatus.initial, editStatus: EditStatus.waiting, titleText: '', authorText: '')) {
+          books: [],
+          status: BookStatus.initial,
+          editStatus: EditStatus.waiting,
+          titleText: '',
+          authorText: '',
+        )) {
     on<BookListLoadEvent>((event, emit) async {
       emit(state.copyWith(status: BookStatus.loading));
+      await Future.delayed(const Duration(seconds: 2)); // Simulate network delay
       final bookStream = bookRepository.getBooks();
-      if (bookStream.isLeft) {
-        await emit.forEach<List<Book>>(bookStream.left, onData: (data) {
+      if (bookStream.isRight) {
+        await emit.forEach<List<Book>>(bookStream.right, onData: (data) {
           return state.copyWith(books: data, status: BookStatus.loaded);
         }, onError: (_, __) {
           return state.copyWith(status: BookStatus.error);
