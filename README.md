@@ -7,6 +7,10 @@ This project fetches a local db, and maps the values to output an array of Books
 You can run this project on Android or iOS with `flutter run`
 You can run tests for this project using `flutter test`
 
+## Running on web
+
+This app will not work on web because sqflite does not support [web](https://github.com/tekartik/sqflite/blob/master/sqflite/doc/troubleshooting.md#error-in-flutter-web)
+
 ## Demo (Fetch, Update, Add, and Delete)
 
 
