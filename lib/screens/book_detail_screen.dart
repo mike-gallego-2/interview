@@ -27,6 +27,14 @@ class _AddBookScreenState extends State<AddBookScreen> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    context
+        .read<BookListBloc>()
+        .add(BookListInitializeTextFieldsEvent(titleText: _titleController.text, authorText: _authorController.text));
+  }
+
+  @override
   void dispose() {
     _titleController.dispose();
     _authorController.dispose();
@@ -93,16 +101,14 @@ class _AddBookScreenState extends State<AddBookScreen> {
                       onTap: () {
                         if (widget.isUpdating) {
                           context.read<BookListBloc>().add(BookListUpdateEvent(
-                              book: widget.book!,
-                              titleText: _titleController.text,
-                              authorText: _authorController.text));
+                              book: widget.book!, titleText: state.titleText, authorText: state.authorText));
                         } else {
                           context.read<BookListBloc>().add(
                                 BookListAddEvent(
                                   book: Book(
                                     id: (state.books.length + 1),
-                                    title: _titleController.text,
-                                    author: _authorController.text,
+                                    title: state.titleText,
+                                    author: state.authorText,
                                     coverImage: 'null',
                                   ),
                                 ),

@@ -55,5 +55,9 @@ class BookListBloc extends Bloc<BookListEvent, BookListState> {
     on<BookListResetEvent>((event, emit) {
       emit(state.copyWith(editStatus: EditStatus.waiting));
     });
+
+    on<BookListInitializeTextFieldsEvent>((event, emit) {
+      emit(state.copyWith(titleText: event.titleText, authorText: event.authorText));
+    });
   }
 }

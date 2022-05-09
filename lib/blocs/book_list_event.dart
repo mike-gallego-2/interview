@@ -68,3 +68,9 @@ class BookListUpdateAuthorEvent extends BookListEvent {
     return 'The current author text is $author';
   }
 }
+
+class BookListInitializeTextFieldsEvent extends BookListEvent {
+  final String titleText;
+  final String authorText;
+  BookListInitializeTextFieldsEvent({required this.titleText, required this.authorText});
+}
