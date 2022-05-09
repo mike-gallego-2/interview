@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interview/blocs/book_list_bloc.dart';
 import 'package:interview/screens/book_detail_screen.dart';
 import 'package:interview/utilities/localize.dart';
-import 'package:interview/widgets/book_tile.dart';
+import 'package:interview/widgets/widgets.dart';
 import 'package:lottie/lottie.dart';
 
 class BookListScreen extends StatelessWidget {
