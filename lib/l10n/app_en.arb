@@ -1,0 +1,46 @@
+{
+  "appName": "Book Demo",
+    "@appName": {
+      "description": "The name of the app"
+    },  
+  
+  "appBarTitle": "Books",
+    "@appBarTitle": {
+      "description": "AppBar title"
+    },  
+  
+  "title": "Title",
+    "@title": {
+      "description": "label for title of book"
+    },
+
+  "author": "Author",
+    "@author": {
+      "description": "label for author of book"
+    },
+
+  "titleHint": "Enter the title of the book",
+  "@titleHint": {
+    "description": "hint for title textfield"
+  },
+
+  "authorHint": "Enter the author of the book",
+  "@authorHint": {
+    "description": "hint for author textfield"
+  },
+
+  "noCoverImage": "No cover image",
+  "@noCoverImage": {
+    "description": "output for when there is no image available"
+  },
+
+  "update": "Update",
+  "@update": {
+    "description": "button text when user is updating"
+  },
+
+  "save": "Save",
+  "@save": {
+    "description": "button text when user has added a book"
+  }
+}

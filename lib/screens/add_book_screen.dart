@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interview/blocs/book_list_bloc.dart';
 import 'package:interview/models/book.dart';
+import 'package:interview/utilities/localization.dart';
 import 'package:interview/widgets/book_image.dart';
 import 'package:interview/widgets/book_textfield.dart';
 
@@ -37,7 +38,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
-            title: const Text('Books'),
+            title: Text(localize(context).appBarTitle),
             actions: [
               widget.isUpdating
                   ? IconButton(
@@ -52,14 +53,14 @@ class _AddBookScreenState extends State<AddBookScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               BookTextField(
-                label: 'Title',
-                hint: 'Enter the title of the book',
+                label: localize(context).title,
+                hint: localize(context).titleHint,
                 controller: _titleController,
                 onChanged: (value) => context.read<BookListBloc>().add(BookListUpdateTitleEvent(title: value)),
               ),
               BookTextField(
-                label: 'Author',
-                hint: 'Enter the author of the book',
+                label: localize(context).author,
+                hint: localize(context).authorHint,
                 controller: _authorController,
                 onChanged: (value) => context.read<BookListBloc>().add(BookListUpdateAuthorEvent(author: value)),
               ),
@@ -67,15 +68,15 @@ class _AddBookScreenState extends State<AddBookScreen> {
                 if (widget.book!.coverImage != 'null') ...[
                   BookImage(imageUrl: widget.book!.coverImage)
                 ] else ...[
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text('No cover image'),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(localize(context).noCoverImage),
                   ),
                 ],
               ] else ...[
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text('No cover image'),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(localize(context).noCoverImage),
                 ),
               ],
               Padding(
@@ -115,7 +116,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                         padding: const EdgeInsets.all(8.0),
                         child: Center(
                           child: Text(
-                            widget.isUpdating ? 'Update' : 'Save',
+                            widget.isUpdating ? localize(context).update : localize(context).save,
                             style: const TextStyle(color: Colors.white),
                           ),
                         ),

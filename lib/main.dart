@@ -8,8 +8,10 @@ import 'package:interview/observer/book_observer.dart';
 import 'package:interview/repositories/book_repository.dart';
 import 'package:interview/screens/book_list_screen.dart';
 import 'package:interview/services/sql_service.dart';
+import 'package:interview/utilities/localization.dart';
 import 'package:path/path.dart';
 import 'package:sqlbrite/sqlbrite.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -56,7 +58,9 @@ class MyApp extends StatelessWidget {
       child: BlocProvider(
         create: (context) => BookListBloc(bookRepository: context.read<BookRepository>())..add(BookListLoadEvent()),
         child: MaterialApp(
-          title: 'Book demo',
+          onGenerateTitle: (context) => localize(context).appName,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
           theme: ThemeData(
             visualDensity: VisualDensity.adaptivePlatformDensity,
           ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interview/blocs/book_list_bloc.dart';
 import 'package:interview/screens/add_book_screen.dart';
+import 'package:interview/utilities/localization.dart';
 import 'package:interview/widgets/book_tile.dart';
 import 'package:lottie/lottie.dart';
 
@@ -11,7 +12,7 @@ class BookListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Books')),
+      appBar: AppBar(title: Text(localize(context).appBarTitle)),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(

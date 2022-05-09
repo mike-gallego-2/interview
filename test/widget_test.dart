@@ -26,7 +26,7 @@ void main() async {
     expect(db, isNotNull);
   });
 
-  test('create from Book class', () async {
+  test('insert from Book class', () async {
     await db.execute('''
       CREATE TABLE book (
         ID INTEGER,
