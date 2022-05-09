@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:interview/models/book.dart';
-import 'package:interview/screens/add_book_screen.dart';
+import 'package:interview/screens/book_detail_screen.dart';
 import 'package:interview/widgets/book_image.dart';
 
 class BookTile extends StatelessWidget {

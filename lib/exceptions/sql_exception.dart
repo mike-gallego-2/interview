@@ -15,5 +15,5 @@ class SQLException extends DatabaseException {
   }
 
   @override
-  Object? get result => getResultCode();
+  int? get result => getResultCode();
 }

@@ -68,16 +68,16 @@ void main() async {
 
   test('check handling of syntax error exception, and see if it matches result code 1', () {
     var exception = SQLException('syntax error');
-    expect(exception.getResultCode(), 1);
+    expect(exception.result, 1);
   });
 
   test('check handling of read only error, and see if it matches result code 8', () {
     var exception = SQLException('readonly');
-    expect(exception.getResultCode(), 8);
+    expect(exception.result, 8);
   });
 
   test('check handling of null exception messages', () {
     var exception = SQLException('can be null');
-    expect(exception.getResultCode(), isNull);
+    expect(exception.result, isNull);
   });
 }
