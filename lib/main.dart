@@ -11,6 +11,7 @@ import 'package:interview/services/sql_service.dart';
 import 'package:interview/utilities/localization.dart';
 import 'package:path/path.dart';
 import 'package:sqlbrite/sqlbrite.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,8 +26,7 @@ void main() async {
 
     // Copy from asset
     ByteData data = await rootBundle.load(join("assets", "book.db"));
-    List<int> bytes =
-        data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+    List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
 
     // Write and flush the bytes written
     await File(path).writeAsBytes(bytes, flush: true);
@@ -56,13 +56,11 @@ class MyApp extends StatelessWidget {
     return RepositoryProvider(
       create: (context) => BookRepository(sqlService: _sqlService),
       child: BlocProvider(
-        create: (context) =>
-            BookListBloc(bookRepository: context.read<BookRepository>())
-              ..add(BookListLoadEvent()),
+        create: (context) => BookListBloc(bookRepository: context.read<BookRepository>())..add(BookListLoadEvent()),
         child: MaterialApp(
           onGenerateTitle: (context) => localize(context).appName,
-          localizationsDelegates: localize(context).localizationsDelegates,
-          supportedLocales: localize(context).supportedLocales,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
           theme: ThemeData(
             visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
