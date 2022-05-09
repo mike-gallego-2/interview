@@ -1,7 +1,6 @@
 import 'package:sqlbrite/sqlbrite.dart';
 
 class SQLException extends DatabaseException {
-  String? message;
   SQLException(String? message) : super(message);
 
   @override

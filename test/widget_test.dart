@@ -6,6 +6,7 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:interview/exceptions/sql_exception.dart';
 import 'package:interview/models/book.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -63,5 +64,20 @@ void main() async {
 
     var result = await db.rawQuery('SELECT * FROM book');
     expect(result.length, 0);
+  });
+
+  test('check handling of syntax error exception, and see if it matches result code 1', () {
+    var exception = SQLException('syntax error');
+    expect(exception.getResultCode(), 1);
+  });
+
+  test('check handling of read only error, and see if it matches result code 8', () {
+    var exception = SQLException('readonly');
+    expect(exception.getResultCode(), 8);
+  });
+
+  test('check handling of null exception messages', () {
+    var exception = SQLException('can be null');
+    expect(exception.getResultCode(), isNull);
   });
 }
