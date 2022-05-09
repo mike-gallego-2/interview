@@ -1,57 +1,33 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interview/blocs/book_list_bloc.dart';
 import 'package:interview/observers/book_observer.dart';
 import 'package:interview/repositories/book_repository.dart';
 import 'package:interview/screens/book_list_screen.dart';
 import 'package:interview/services/sql_service.dart';
+import 'package:interview/utilities/initializer.dart';
 import 'package:interview/utilities/localize.dart';
-import 'package:path/path.dart';
 import 'package:sqlbrite/sqlbrite.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  var databasesPath = await getDatabasesPath();
-  var path = join(databasesPath, 'book.db');
-  var exists = await databaseExists(path);
-
-  if (!exists) {
-    try {
-      await Directory(dirname(path)).create(recursive: true);
-    } catch (_) {}
-
-    // Copy from asset
-    ByteData data = await rootBundle.load(join("assets", "book.db"));
-    List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
-
-    // Write and flush the bytes written
-    await File(path).writeAsBytes(bytes, flush: true);
-  } else {
-    debugPrint("Opening existing database");
-  }
-
-  Database db = await openDatabase(path);
-  BriteDatabase briteDb = BriteDatabase(db);
-
+  var briteDatabase = await initDb();
   BlocOverrides.runZoned(
-    () => runApp(MyApp(
-      db: briteDb,
+    () => runApp(BookDemo(
+      briteDatabase: briteDatabase,
     )),
     blocObserver: BookBlocObserver(),
   );
 }
 
-class MyApp extends StatelessWidget {
-  final BriteDatabase db;
-  const MyApp({Key? key, required this.db}) : super(key: key);
+class BookDemo extends StatelessWidget {
+  final BriteDatabase briteDatabase;
+  const BookDemo({Key? key, required this.briteDatabase}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     // services
-    final _sqlService = SQLService(db: db);
+    final _sqlService = SQLService(db: briteDatabase);
 
     return RepositoryProvider(
       create: (context) => BookRepository(sqlService: _sqlService),
