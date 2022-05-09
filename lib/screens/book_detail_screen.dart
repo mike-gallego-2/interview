@@ -3,8 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interview/blocs/book_list_bloc.dart';
 import 'package:interview/models/book.dart';
 import 'package:interview/utilities/localize.dart';
-import 'package:interview/widgets/book_image.dart';
-import 'package:interview/widgets/book_textfield.dart';
+import 'package:interview/widgets/widgets.dart';
 
 class AddBookScreen extends StatefulWidget {
   final Book? book;
