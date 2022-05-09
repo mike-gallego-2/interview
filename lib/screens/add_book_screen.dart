@@ -36,95 +36,96 @@ class _AddBookScreenState extends State<AddBookScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Books'),
-          actions: [
-            widget.isUpdating
-                ? IconButton(
-                    onPressed: () {
-                      context.read<BookListBloc>().add(BookListDeleteEvent(id: widget.book!.id));
-                    },
-                    icon: const Icon(Icons.delete_outline))
-                : const SizedBox()
-          ],
-        ),
-        body: BlocConsumer<BookListBloc, BookListState>(
-          listener: (context, state) async {
-            if (state.editStatus == EditStatus.added || state.editStatus == EditStatus.updated) {
-              await Navigator.maybePop(context);
-              context.read<BookListBloc>().add(BookListResetEvent());
-            }
-          },
-          builder: (context, state) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                BookTextField(
-                  label: 'Title',
-                  hint: 'Enter the title of the book',
-                  controller: _titleController,
-                  onChanged: (value) => context.read<BookListBloc>().add(BookListUpdateTitleEvent(title: value)),
-                ),
-                BookTextField(
-                  label: 'Author',
-                  hint: 'Enter the author of the book',
-                  controller: _authorController,
-                  onChanged: (value) => context.read<BookListBloc>().add(BookListUpdateAuthorEvent(author: value)),
-                ),
-                if (widget.book != null) ...[
-                  if (widget.book!.coverImage != 'null') ...[
-                    BookImage(imageUrl: widget.book!.coverImage)
-                  ] else ...[
-                    const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text('No cover image'),
-                    ),
-                  ],
+          appBar: AppBar(
+            title: const Text('Books'),
+            actions: [
+              widget.isUpdating
+                  ? IconButton(
+                      onPressed: () {
+                        context.read<BookListBloc>().add(BookListDeleteEvent(id: widget.book!.id));
+                      },
+                      icon: const Icon(Icons.delete_outline))
+                  : const SizedBox()
+            ],
+          ),
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              BookTextField(
+                label: 'Title',
+                hint: 'Enter the title of the book',
+                controller: _titleController,
+                onChanged: (value) => context.read<BookListBloc>().add(BookListUpdateTitleEvent(title: value)),
+              ),
+              BookTextField(
+                label: 'Author',
+                hint: 'Enter the author of the book',
+                controller: _authorController,
+                onChanged: (value) => context.read<BookListBloc>().add(BookListUpdateAuthorEvent(author: value)),
+              ),
+              if (widget.book != null) ...[
+                if (widget.book!.coverImage != 'null') ...[
+                  BookImage(imageUrl: widget.book!.coverImage)
                 ] else ...[
                   const Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text('No cover image'),
                   ),
                 ],
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      if (widget.isUpdating) {
-                        context.read<BookListBloc>().add(BookListUpdateEvent(
-                            book: widget.book!, titleText: _titleController.text, authorText: _authorController.text));
-                      } else {
-                        context.read<BookListBloc>().add(
-                              BookListAddEvent(
-                                book: Book(
-                                  id: (state.books.length + 1),
-                                  title: state.titleText,
-                                  author: state.authorText,
-                                  coverImage: 'null',
-                                ),
-                              ),
-                            );
-                      }
-                      _titleController.clear();
-                      _authorController.clear();
-                    },
-                    child: Container(
-                      color: Colors.blue,
-                      padding: const EdgeInsets.all(8.0),
-                      child: Center(
-                        child: Text(
-                          widget.isUpdating ? 'Update' : 'Save',
-                          style: const TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  ),
+              ] else ...[
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text('No cover image'),
                 ),
               ],
-            );
-          },
-        ),
-      ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: BlocConsumer<BookListBloc, BookListState>(
+                  listener: (context, state) async {
+                    if (state.editStatus == EditStatus.added || state.editStatus == EditStatus.updated) {
+                      await Navigator.maybePop(context);
+                      context.read<BookListBloc>().add(BookListResetEvent());
+                    }
+                  },
+                  builder: (context, state) {
+                    return GestureDetector(
+                      onTap: () {
+                        if (widget.isUpdating) {
+                          context.read<BookListBloc>().add(BookListUpdateEvent(
+                              book: widget.book!,
+                              titleText: _titleController.text,
+                              authorText: _authorController.text));
+                        } else {
+                          context.read<BookListBloc>().add(
+                                BookListAddEvent(
+                                  book: Book(
+                                    id: (state.books.length + 1),
+                                    title: _titleController.text,
+                                    author: _authorController.text,
+                                    coverImage: 'null',
+                                  ),
+                                ),
+                              );
+                        }
+                        _titleController.clear();
+                        _authorController.clear();
+                      },
+                      child: Container(
+                        color: Colors.blue,
+                        padding: const EdgeInsets.all(8.0),
+                        child: Center(
+                          child: Text(
+                            widget.isUpdating ? 'Update' : 'Save',
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          )),
     );
   }
 }
