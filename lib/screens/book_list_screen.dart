@@ -18,7 +18,7 @@ class BookListScreen extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const AddBookScreen(
+              builder: (context) => const BookDetailScreen(
                 isUpdating: false,
               ),
             ),

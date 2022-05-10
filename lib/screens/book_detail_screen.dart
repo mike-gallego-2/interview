@@ -5,16 +5,16 @@ import 'package:interview/models/book.dart';
 import 'package:interview/utilities/localize.dart';
 import 'package:interview/widgets/widgets.dart';
 
-class AddBookScreen extends StatefulWidget {
+class BookDetailScreen extends StatefulWidget {
   final Book? book;
   final bool isUpdating;
-  const AddBookScreen({Key? key, this.book, required this.isUpdating}) : super(key: key);
+  const BookDetailScreen({Key? key, this.book, required this.isUpdating}) : super(key: key);
 
   @override
-  State<AddBookScreen> createState() => _AddBookScreenState();
+  State<BookDetailScreen> createState() => _BookDetailScreenState();
 }
 
-class _AddBookScreenState extends State<AddBookScreen> {
+class _BookDetailScreenState extends State<BookDetailScreen> {
   late final TextEditingController _titleController;
   late final TextEditingController _authorController;
 

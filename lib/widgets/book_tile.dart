@@ -14,7 +14,7 @@ class BookTile extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => AddBookScreen(
+            builder: (context) => BookDetailScreen(
               isUpdating: true,
               book: book,
             ),
